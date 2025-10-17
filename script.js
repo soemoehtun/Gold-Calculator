@@ -44,7 +44,7 @@ function calculate() {
     const pae = Math.floor(totalPae);
     const yway = (totalPae - pae) * 8;
 
-    result.textContent = `${label}${kyat} ကျပ် (Kyat) ${pae} ပဲ (Pae) ${yway.toFixed(2)} ရွှေး (Yway)`;
+    result.textContent = `${label}${kyat} ကျပ် ${pae} ပဲ ${yway.toFixed(2)} ရွှေး`;
 
   } else {
     const label = "ကျသင့် ငွေ: ";
