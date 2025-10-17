@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gold Calculator Tool</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h2>💰 Gold Calculator Tool</h2>
+
+    <!-- Mode Selector -->
+    <div class="input-group">
+      <label for="mode">Mode:</label>
+      <select id="mode" onchange="updateMode()">
+        <option>ငွေမှ ရွှေအလေးချိန်သို့</option>
+        <option>ရွှေအလေးချိန်မှ ငွေသို့</option>
+      </select>
+    </div>
+
+    <!-- Inputs -->
+    <div class="input-group">
+      <label id="label1" for="input1">လက်ထဲရှိငွေ (MMK):</label>
+      <input type="number" id="input1" oninput="calculate()">
+    </div>
+
+    <div class="input-group">
+      <label id="label2" for="input2">ရွှေပေါက်စျေး (MMK):</label>
+      <input type="number" id="input2" oninput="calculate()">
+    </div>
+
+    <div class="input-group" id="group3" style="display: none;">
+      <label id="label3" for="input3">ရွှေး (Yway):</label>
+      <input type="number" id="input3" oninput="calculate()">
+    </div>
+
+    <div class="input-group" id="priceGroup" style="display: none;">
+      <label id="priceLabel" for="priceInput">ရွှေပေါက်စျေး (MMK):</label>
+      <input type="number" id="priceInput" oninput="calculate()">
+    </div>
+
+    <!-- Result -->
+    <div class="result" id="result">ရွှေ အလေးချိန်</div>
+
+    <!-- Links -->
+    <div class="links">
+      <a href="https://shorturl.at/iO1Ib" target="_blank">Developed By - Soe Moe Tun</a><br>
+      <a href="https://bush-ballcap-829.notion.site/Gold-Calculator-Tool-Guide-28e10948b78680c39378fc39ec873d34" target="_blank">Tools Guide Line</a>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
