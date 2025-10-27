@@ -6,7 +6,7 @@ function updateMode() {
     const result = $("result");
 
     // Hide/Show elements based on mode
-    const isMoneyToWeight = mode === "ငွေမှ ရွှေအလေးချိန်သို့";
+    const isMoneyToWeight = mode === "ဝယ်မယ်";
     
     // Update labels and visibility
     if (isMoneyToWeight) {
