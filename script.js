@@ -57,7 +57,7 @@ function calculate() {
     const input3 = ($("group3").style.display === "block") ? (parseFloat($("input3").value) || 0) : 0;
     const priceInput = ($("priceGroup").style.display === "block") ? (parseFloat($("priceInput").value) || 0) : 0;
     
-    const isMoneyToWeight = mode === "ငွေမှ ရွှေအလေးချိန်သို့";
+    const isMoneyToWeight = mode === "ပြန်ရောင်းမယ်";
     
     if (isMoneyToWeight) {
         // Mode: Money to Gold Weight
