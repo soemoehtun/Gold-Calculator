@@ -78,4 +78,23 @@ function calculate() {
     result.innerHTML = `${kyat} ကျပ် ၊ ${pae} ပဲ ၊ ${yway.toFixed(2)} ရွှေး`;
   } else {
     // Gold Weight → Money
-    const kyatWeight
+    const kyatWeight = input1;
+    const paeWeight = input2;
+    const ywayWeight = input3;
+    const price = priceInput;
+
+    if (price <= 0) {
+      result.className = "alert alert-info text-center mt-4 fw-bold";
+      result.innerHTML = "ကျသင့် ငွေ: -";
+      return;
+    }
+
+    const totalK = kyatWeight + (paeWeight / 16) + (ywayWeight / 128);
+    const amount = totalK * price;
+
+    result.className = "alert alert-success text-center mt-4 fw-bold";
+    result.innerHTML = `${amount.toLocaleString('en-US')} MMK`;
+  }
+}
+
+document.addEventListener("DOMContentLoaded", updateMode);
