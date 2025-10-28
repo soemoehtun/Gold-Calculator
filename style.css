@@ -1,10 +1,34 @@
-/* style.css (Minimal custom CSS needed) */
 body {
-    /* Set min-height to full viewport height for proper vertical centering/full background */
-    min-height: 100vh;
+  font-family: "Noto Sans Myanmar", sans-serif;
+  background: #f8f9fa;
 }
 
-/* Optional: Make inputs slightly more readable on mobile by setting a larger font */
-.form-control-lg {
-    font-size: 1.1rem; /* Slightly larger font for better touch interaction */
+.card {
+  max-width: 480px;
+  border: none;
+  border-radius: 20px;
+  background: #fff;
+}
+
+#result {
+  border-radius: 12px;
+  font-size: 1.1rem;
+}
+
+h3 {
+  font-weight: bold;
+}
+
+@media (max-width: 576px) {
+  .card {
+    padding: 1.5rem !important;
+  }
+
+  h3 {
+    font-size: 1.4rem;
+  }
+
+  #result {
+    font-size: 1rem;
+  }
 }
