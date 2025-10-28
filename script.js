@@ -1,27 +1,42 @@
-// Helper to get element
+// Helper
 function $(id) { return document.getElementById(id); }
 
-// Convert Myanmar digits (၁၂၃၄၅၆၇၈၉၀) to English digits (1234567890)
+// Convert Myanmar digits to English
 function mmToEn(numStr) {
   const mmDigits = "၀၁၂၃၄၅၆၇၈၉";
   const enDigits = "0123456789";
-  let converted = "";
-  for (let ch of numStr) {
-    const idx = mmDigits.indexOf(ch);
-    converted += idx !== -1 ? enDigits[idx] : ch;
-  }
-  return converted;
+  return numStr.replace(/[၀-၉]/g, ch => enDigits[mmDigits.indexOf(ch)]);
 }
 
-// Get numeric value (support both Myanmar & English digits)
+// Convert English digits to Myanmar
+function enToMm(numStr) {
+  const mmDigits = "၀၁၂၃၄၅၆၇၈၉";
+  const enDigits = "0123456789";
+  return numStr.replace(/[0-9]/g, ch => mmDigits[enDigits.indexOf(ch)]);
+}
+
+// Detect if user typed Myanmar digits
+function isMyanmarInput(str) {
+  return /[၀-၉]/.test(str);
+}
+
+// Get numeric value regardless of language
 function getNumericValue(id) {
   const val = $(id).value.trim();
   if (val === "") return 0;
-  const clean = mmToEn(val.replace(/,/g, "")); // remove commas
+  const clean = mmToEn(val.replace(/,/g, ""));
   return parseFloat(clean) || 0;
 }
 
-// Update input UI according to selected mode
+let outputInMyanmar = false;
+
+// Detect language style from input
+function detectLanguage() {
+  const allInputs = [$("input1"), $("input2"), $("input3"), $("priceInput")];
+  outputInMyanmar = allInputs.some(el => isMyanmarInput(el.value));
+}
+
+// Update mode UI
 function updateMode() {
   const mode = $("mode").value;
   const result = $("result");
@@ -46,8 +61,10 @@ function updateMode() {
   calculate();
 }
 
-// Main Calculation
+// Main calculation
 function calculate() {
+  detectLanguage(); // check if Myanmar or English input
+
   const mode = $("mode").value;
   const result = $("result");
   const isMoneyToWeight = mode === "ဝယ်မယ်";
@@ -61,7 +78,6 @@ function calculate() {
     // Money → Gold Weight
     const money = input1;
     const price = input2;
-
     if (money <= 0 || price <= 0) {
       result.className = "alert alert-info text-center mt-4 fw-bold";
       result.innerHTML = "ရွှေ အလေးချိန်: -";
@@ -74,15 +90,18 @@ function calculate() {
     const pae = Math.floor(totalPae);
     const yway = (totalPae - pae) * 8;
 
+    let output = `${kyat} ကျပ် ၊ ${pae} ပဲ ၊ ${yway.toFixed(2)} ရွှေး`;
+    if (outputInMyanmar) output = enToMm(output);
+
     result.className = "alert alert-primary text-center mt-4 fw-bold";
-    result.innerHTML = `${kyat} ကျပ် ၊ ${pae} ပဲ ၊ ${yway.toFixed(2)} ရွှေး`;
+    result.innerHTML = output;
+
   } else {
-    // Gold Weight → Money
+    // Gold → Money
     const kyatWeight = input1;
     const paeWeight = input2;
     const ywayWeight = input3;
     const price = priceInput;
-
     if (price <= 0) {
       result.className = "alert alert-info text-center mt-4 fw-bold";
       result.innerHTML = "ကျသင့် ငွေ: -";
@@ -91,9 +110,12 @@ function calculate() {
 
     const totalK = kyatWeight + (paeWeight / 16) + (ywayWeight / 128);
     const amount = totalK * price;
+    let formatted = amount.toLocaleString('en-US');
+
+    if (outputInMyanmar) formatted = enToMm(formatted);
 
     result.className = "alert alert-success text-center mt-4 fw-bold";
-    result.innerHTML = `${amount.toLocaleString('en-US')} MMK`;
+    result.innerHTML = `${formatted} MMK`;
   }
 }
 
