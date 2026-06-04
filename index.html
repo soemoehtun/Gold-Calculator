@@ -1,62 +1,290 @@
 <!DOCTYPE html>
 <html lang="my">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ရွှေတွက်စက် (Gold Calculator)</title>
-
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gold Calculator</title>
+<style>
+html, body { overflow-x: hidden; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background: linear-gradient(145deg, #eef0f4 0%, #e4e6eb 100%);
+    min-height: 100vh; color: #333; font-size: 13px;
+}
+.page-container { max-width: 1280px; margin: 0 auto; padding: 60px 24px 48px; }
+.page-header-bar { padding: 20px 20px 13px; background: #fff; }
+.page-title { font-size: 20px; font-weight: 700; color: #1a1a2e; letter-spacing: -0.2px; line-height: 1; }
+.page-subtitle { font-size: 12px; color: #6b7280; margin-top: 10px; }
+.page-wrap {
+    background: #fff; border: 1px solid #d8dbe0; border-radius: 10px;
+    overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.07), 0 1px 4px rgba(0,0,0,0.04);
+}
+.tab-bar { display: flex; border-bottom: 1px solid #e0e0e0; margin-bottom: 0; background: #fff; border-radius: 0; overflow-x: auto; overflow-y: hidden; padding: 0 8px; }
+.tab-btn { padding: 10px 18px; border: none; background: transparent; color: #555; font-size: 13px; font-family: inherit; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: color 0.2s; white-space: nowrap; flex-shrink: 0; }
+.tab-btn:hover { color: #0083c1; }
+.tab-btn.active { color: #0083c1; border-bottom-color: #0083c1; font-weight: 600; }
+.main-panel { display: grid; grid-template-columns: 1fr 320px; gap: 0; align-items: start; padding: 20px 100px 20px 20px; border-bottom: 1px solid #eee; }
+.card { background: #fff; border: 1px solid #e4e4e4; border-radius: 3px; padding: 16px 40px; }
+.section-label { font-size: 13px; font-weight: 600; color: #222; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid #f0f0f0; }
+.form-row { display: grid; grid-template-columns: 1fr; gap: 14px; margin-bottom: 14px; align-items: end; }
+.form-row.two-col { grid-template-columns: 1fr 1fr; }
+.form-row.four-col { grid-template-columns: repeat(4, 1fr); }
+.form-group { display: flex; flex-direction: column; gap: 5px; }
+.form-group label { font-size: 12px; color: #555; font-weight: 500; }
+.form-group label .req { color: #c2002f; margin-left: 2px; }
+select, input[type="text"], input[type="number"] { height: 32px; border: 1px solid #d0d0d0; border-radius: 3px; padding: 0 10px; font-size: 13px; font-family: inherit; color: #333; background: #fff; outline: none; transition: border-color 0.2s, box-shadow 0.2s; width: 100%; }
+select:focus, input:focus { border-color: #0083c1; box-shadow: 0 0 0 2px rgba(0,131,193,0.12); }
+select:disabled, input:disabled { background: #f7f7f7; color: #aaa; cursor: not-allowed; }
+.calc-row { display: flex; justify-content: flex-end; margin-top: 6px; }
+.btn-calc { background: #0083c1; color: #fff; border: none; border-radius: 3px; padding: 0 28px; height: 32px; font-size: 13px; font-family: inherit; font-weight: 600; cursor: pointer; transition: background 0.2s, transform 0.1s; letter-spacing: 0.2px; }
+.btn-calc:hover { background: #006fa8; }
+.btn-calc:active { transform: translateY(1px); }
+.btn-clear-sm { background: transparent; color: #0083c1; border: 1px solid #0083c1; border-radius: 3px; padding: 0 18px; height: 32px; font-size: 13px; font-family: inherit; cursor: pointer; margin-right: 10px; transition: all 0.2s; }
+.btn-clear-sm:hover { background: #f0f8ff; }
+.output-section { margin-top: 20px; padding-top: 16px; border-top: 1px solid #f0f0f0; }
+.output-row { display: grid; grid-template-columns: 1fr; gap: 12px; margin-bottom: 12px; }
+.output-field { display: flex; flex-direction: column; gap: 5px; }
+.output-field label { font-size: 12px; color: #555; font-weight: 500; }
+.output-value { height: 32px; border: 1px solid #d0d0d0; border-radius: 3px; padding: 0 10px; font-size: 13px; font-family: inherit; color: #333; background: #fff; display: flex; align-items: center; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.output-value.highlighted { background: #fff; border-color: #d0d0d0; color: #333; font-weight: 400; }
+.info-panel { display: flex; flex-direction: column; gap: 12px; padding-left: 50px; font-size: 12px; color: #333; line-height: 1.75; min-height: 160px; }
+.info-table { width: 100%; border-collapse: collapse; }
+.info-table tr td { padding: 2px 0; vertical-align: top; font-size: 12px; white-space: nowrap; }
+.info-table tr td:first-child { color: #777; width: 100px; padding-right: 10px; }
+.info-table tr td:last-child { color: #333; white-space: nowrap; }
+.op-guide { background: #fff; border: none; border-top: 1px solid #e4e4e4; border-radius: 0; margin: 0; overflow: hidden; }
+.op-guide-header { padding: 9px 20px; font-size: 13px; font-weight: 600; color: #444; cursor: pointer; display: flex; align-items: center; gap: 6px; background: #ebf5fb; border-bottom: 1px solid transparent; user-select: none; transition: background 0.15s; }
+.op-guide-header:hover { background: #f2f2f2; }
+.op-guide-header .arrow { width: 14px; height: 14px; transition: transform 0.22s ease; color: #888; display: inline-flex; align-items: center; flex-shrink: 0; }
+.op-guide-header.open .arrow { transform: rotate(90deg); }
+.op-guide-header.open { border-bottom-color: #e4e4e4; }
+.op-guide-body { display: none; padding: 12px 20px 16px; font-size: 12px; color: #555; line-height: 1.8; }
+.op-guide-body.open { display: block; }
+.op-guide-body p { margin-bottom: 4px; }
+.formula-box { background: #f8f9fa; border: 1px solid #e8e8e8; border-radius: 3px; padding: 8px 12px; font-family: 'Courier New', monospace; font-size: 11px; color: #333; margin: 6px 0; line-height: 1.6; }
+@media (max-width: 1024px) {
+    .page-container { padding: 24px 16px 36px; }
+    .main-panel { grid-template-columns: 1fr 320px; padding: 14px 16px; }
+}
+@media (max-width: 860px) {
+    .main-panel { grid-template-columns: 1fr; padding: 14px 16px; }
+    .info-panel { border-left: none; border-top: 1px solid #ebebeb; padding-left: 0; padding-top: 14px; min-height: unset; }
+}
+@media (max-width: 600px) {
+    body { padding: 0; margin: 0; width: 100vw; overflow-x: hidden; background: #fff; }
+    .page-container { padding: 0 0 24px; margin: 0; width: 100%; max-width: 100vw; }
+    .page-wrap { border: none; border-radius: 0; box-shadow: none; width: 100%; max-width: 100vw; overflow-x: hidden; }
+    .page-header-bar { padding: 12px 16px 11px; }
+    .page-title { font-size: 14px; }
+    .page-subtitle { font-size: 11.5px; }
+    .tab-bar { padding: 0 4px; }
+    .tab-btn { padding: 10px 13px; font-size: 12px; }
+    .main-panel { padding: 12px; }
+    .card { padding: 12px 14px; }
+    .form-row { gap: 10px; margin-bottom: 10px; }
+    .section-label { font-size: 12px; margin-bottom: 12px; }
+    .calc-row { margin-top: 10px; }
+    .btn-calc, .btn-clear-sm { height: 36px; font-size: 13px; }
+    .op-guide-header { padding: 10px 14px; font-size: 12px; }
+    .op-guide-body { padding: 10px 14px 14px; font-size: 12px; }
+    .info-panel { font-size: 11px; }
+}
+@media (max-width: 400px) {
+    .page-container { padding: 12px 8px 20px; }
+    .form-row { grid-template-columns: 1fr; }
+    .page-title { font-size: 16px; }
+    .btn-calc { padding: 0 18px; }
+}
+</style>
 </head>
 <body>
 
-  <div class="container py-5">
-    <div class="card shadow-lg p-4 mx-auto">
-      <h3 class="text-center mb-4 fw-bold text-primary">💰 ရွှေတွက်စက်</h3>
+<div class="page-container">
+  <div class="page-wrap">
 
-      <!-- Mode -->
-      <div class="mb-3">
-        <label for="mode" class="form-label fw-semibold">ရွေးချယ်မှု</label>
-        <select id="mode" class="form-select" onchange="updateMode()">
-          <option value="ဝယ်မယ်">ဝယ်မယ် (ငွေမှ ရွှေ)</option>
-          <option value="ပြန်ရောင်းမယ်">ပြန်ရောင်းမယ် (ရွှေမှ ငွေ)</option>
-        </select>
+    <div class="page-header-bar">
+      <div class="page-title">Gold Calculator</div>
+      <div class="page-subtitle">Gold Weight &amp; Value Converter — MMK to Kyat/Pae/Yway</div>
+    </div>
+
+    <div class="tab-bar">
+      <button class="tab-btn active" id="tab-buy" onclick="switchMode('ဝယ်မယ်')">ရွှေဝယ်မယ်</button>
+      <button class="tab-btn" id="tab-sell" onclick="switchMode('ပြန်ရောင်းမယ်')">ရွှေပြန်ရောင်းမယ်</button>
+    </div>
+
+    <div class="main-panel">
+      <div>
+        <div class="card">
+          <div class="section-label">Input</div>
+
+          <div class="form-row two-col" id="buyRow">
+            <div class="form-group">
+              <label>လက်ထဲရှိငွေ (MMK): <span class="req">*</span></label>
+              <input type="text" id="input1" placeholder="MMK ပမာဏ" oninput="calculate()">
+            </div>
+            <div class="form-group">
+              <label>ရွှေပေါက်စျေး (MMK) (တစ်ကျပ်သား): <span class="req">*</span></label>
+              <input type="text" id="input2" placeholder="ပေါက်စျေး (MMK)" oninput="calculate()">
+            </div>
+          </div>
+
+          <div class="form-row four-col" id="sellRow" style="display:none;">
+            <div class="form-group">
+              <label>ကျပ် (Kyat) : <span class="req">*</span></label>
+              <input type="text" id="sellInput1" placeholder="ကျပ် ပမာဏ" oninput="calculate()">
+            </div>
+            <div class="form-group">
+              <label>ပဲ (Pae) : <span class="req">*</span></label>
+              <input type="text" id="sellInput2" placeholder="ပဲ ပမာဏ" oninput="calculate()">
+            </div>
+            <div class="form-group">
+              <label>ရွှေး (Yway) :</label>
+              <input type="text" id="sellInput3" placeholder="ရွှေး ပမာဏ" oninput="calculate()">
+            </div>
+            <div class="form-group">
+              <label>ပေါက်စျေး (MMK) : <span class="req">*</span></label>
+              <input type="text" id="sellInput4" placeholder="ပေါက်စျေး (MMK)" oninput="calculate()">
+            </div>
+          </div>
+
+          <div class="calc-row">
+            <button class="btn-clear-sm" onclick="clearAll()">Clear</button>
+            <button class="btn-calc" onclick="calculate()">Calculate</button>
+          </div>
+
+          <div class="output-section">
+            <div class="section-label">Result</div>
+            <div class="output-row">
+              <div class="output-field">
+                <label>တွက်ချက်ရလဒ်:</label>
+                <div class="output-value highlighted" id="result">—</div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <!-- Input 1 -->
-      <div class="mb-3">
-        <label id="label1" class="form-label fw-semibold">လက်ထဲရှိငွေ (MMK):</label>
-        <input type="text" class="form-control" id="input1" placeholder="MMK ပမာဏ" oninput="calculate()">
-      </div>
-
-      <!-- Input 2 -->
-      <div class="mb-3">
-        <label id="label2" class="form-label fw-semibold">ရွှေပေါက်စျေး (MMK) (တစ်ကျပ်သား):</label>
-        <input type="text" class="form-control" id="input2" placeholder="ပေါက်စျေး (MMK)" oninput="calculate()">
-      </div>
-
-      <!-- Input 3 -->
-      <div id="group3" class="mb-3" style="display:none;">
-        <label id="label3" class="form-label fw-semibold">ရွှေး (Yway) ပမာဏ:</label>
-        <input type="text" class="form-control" id="input3" placeholder="ရွှေး ပမာဏ" oninput="calculate()">
-      </div>
-
-      <!-- Price -->
-      <div id="priceGroup" class="mb-3" style="display:none;">
-        <label for="priceInput" class="form-label fw-semibold">ရွှေပေါက်စျေး (MMK) (တစ်ကျပ်သား):</label>
-        <input type="text" class="form-control" id="priceInput" placeholder="ပေါက်စျေး (MMK)" oninput="calculate()">
-      </div>
-
-      <!-- Result -->
-      <div id="result" class="alert alert-info text-center mt-4 fw-bold">ရွှေ အလေးချိန်</div>
-
-      <div class="text-center mt-3 text-muted small">
-        © 2025 Soe Moe Tun | Gold Converter Tool
+      <div class="info-panel">
+        <div style="color:#0083c1;font-weight:600;font-size:12.5px;margin-bottom:6px;">ရွှေတွက်နည်း — Gold Conversion</div>
+        <div style="font-size:12px;color:#555;line-height:1.85;">
+          Convert between Myanmar gold weight units (Kyat, Pae, Yway) and MMK.
+        </div>
+        <div style="margin-top:8px;">
+          <div style="font-size:11px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">Conversion</div>
+          <table class="info-table">
+            <tr><td>1 ကျပ် (Kyat)</td><td>= 16 ပဲ (Pae)</td></tr>
+            <tr><td>1 ပဲ (Pae)</td><td>= 8 ရွှေး (Yway)</td></tr>
+            <tr><td>1 ကျပ်</td><td>= 128 ရွှေး</td></tr>
+          </table>
+        </div>
+        <div style="margin-top:8px;">
+          <div style="font-size:11px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">Formula</div>
+          <div class="formula-box" id="formulaBox">Weight (Kyat) = MMK ÷ Gold Price</div>
+        </div>
+        <hr style="border:none;border-top:1px solid #e8e8e8;margin:10px 0 8px;">
       </div>
     </div>
-  </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="script.js"></script>
+    <div class="op-guide">
+      <div class="op-guide-header" onclick="toggleGuide(this)">
+        <span class="arrow"><svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg></span> Operation Guide
+      </div>
+      <div class="op-guide-body" id="gold_guide">
+        <p><strong>ရွှေဝယ်မယ်:</strong> Enter your MMK amount and the current gold price per Kyat-tha to calculate how many Kyat, Pae, and Yway you can buy.</p>
+        <p><strong>ရွှေပြန်ရောင်းမယ်:</strong> Enter the Kyat, Pae, and Yway weight along with the gold price to calculate the total MMK value.</p>
+        <p><strong>Example (Buy):</strong> MMK = 1,000,000, Gold Price = 3,500,000 → Weight = 0.2857 Kyat = 0 Kyat 4 Pae 4.57 Yway</p>
+        <p><strong>Example (Sell):</strong> 1 Kyat 2 Pae 3 Yway at 3,500,000 MMK → Value = 3,718,750 MMK</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+function $(id) { return document.getElementById(id); }
+function mmToEn(numStr) {
+  const mmDigits = "၀၁၂၃၄၅၆၇၈၉";
+  const enDigits = "0123456789";
+  return numStr.replace(/[၀-၉]/g, ch => enDigits[mmDigits.indexOf(ch)]);
+}
+function enToMm(numStr) {
+  const mmDigits = "၀၁၂၃၄၅၆၇၈၉";
+  const enDigits = "0123456789";
+  return numStr.replace(/[0-9]/g, ch => mmDigits[enDigits.indexOf(ch)]);
+}
+function isMyanmarInput(str) { return /[၀-၉]/.test(str); }
+function getNumericValue(id) {
+  const val = $(id).value.trim();
+  if (val === "") return 0;
+  const clean = mmToEn(val.replace(/,/g, ""));
+  return parseFloat(clean) || 0;
+}
+let outputInMyanmar = false;
+function detectLanguage() {
+  const isBuy = currentMode === "ဝယ်မယ်";
+  const ids = isBuy ? ["input1", "input2"] : ["sellInput1", "sellInput2", "sellInput3", "sellInput4"];
+  outputInMyanmar = ids.some(id => isMyanmarInput($(id).value));
+}
+function toggleGuide(headerEl) {
+  const body = headerEl.nextElementSibling;
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  headerEl.classList.toggle('open', !isOpen);
+}
+function clearAll() {
+  const isBuy = currentMode === "ဝယ်မယ်";
+  if (isBuy) { ["input1", "input2"].forEach(id => $(id).value = ""); }
+  else { ["sellInput1", "sellInput2", "sellInput3", "sellInput4"].forEach(id => $(id).value = ""); }
+  $("result").className = "output-value highlighted";
+  $("result").textContent = "—";
+}
+let currentMode = "ဝယ်မယ်";
+function switchMode(mode) {
+  currentMode = mode;
+  const isBuy = mode === "ဝယ်မယ်";
+  $("tab-buy").classList.toggle("active", isBuy);
+  $("tab-sell").classList.toggle("active", !isBuy);
+  updateMode();
+}
+function updateMode() {
+  const isBuy = currentMode === "ဝယ်မယ်";
+  $("buyRow").style.display = isBuy ? "" : "none";
+  $("sellRow").style.display = isBuy ? "none" : "";
+  $("result").textContent = isBuy ? "ရွှေ အလေးချိန်" : "ကျသင့် ငွေ";
+  $("formulaBox").innerHTML = "Weight (Kyat) = MMK ÷ Gold Price<br>Value (MMK) = (Kyat + Pae/16 + Yway/128) × Gold Price";
+  calculate();
+}
+function calculate() {
+  detectLanguage();
+  const result = $("result");
+  const isBuy = currentMode === "ဝယ်မယ်";
+  if (isBuy) {
+    const money = getNumericValue("input1");
+    const price = getNumericValue("input2");
+    if (money <= 0 || price <= 0) { result.textContent = "ရွှေ အလေးချိန်: -"; return; }
+    const totalKyat = money / price;
+    const kyat = Math.floor(totalKyat);
+    const totalPae = (totalKyat - kyat) * 16;
+    const pae = Math.floor(totalPae);
+    const yway = (totalPae - pae) * 8;
+    let output = `${kyat} ကျပ် ၊ ${pae} ပဲ ၊ ${yway.toFixed(2)} ရွှေး`;
+    if (outputInMyanmar) output = enToMm(output);
+    result.textContent = output;
+  } else {
+    const kyatWeight = getNumericValue("sellInput1");
+    const paeWeight = getNumericValue("sellInput2");
+    const ywayWeight = getNumericValue("sellInput3");
+    const price = getNumericValue("sellInput4");
+    if (price <= 0) { result.textContent = "ကျသင့် ငွေ: -"; return; }
+    const totalK = kyatWeight + (paeWeight / 16) + (ywayWeight / 128);
+    const amount = totalK * price;
+    let formatted = amount.toLocaleString('en-US');
+    if (outputInMyanmar) formatted = enToMm(formatted);
+    result.textContent = `${formatted} MMK`;
+  }
+}
+document.addEventListener("DOMContentLoaded", updateMode);
+</script>
 </body>
 </html>
