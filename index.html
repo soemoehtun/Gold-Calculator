@@ -12,88 +12,218 @@ body {
     background: linear-gradient(145deg, #eef0f4 0%, #e4e6eb 100%);
     min-height: 100vh; color: #333; font-size: 13px;
 }
-.page-container { max-width: 1280px; margin: 0 auto; padding: 60px 24px 48px; }
-.page-header-bar { padding: 20px 20px 13px; background: #fff; }
+.page-container { max-width: 700px; margin: 0 auto; padding: 40px 24px 48px; }
+.page-header-bar { padding: 20px 24px 14px; background: #fff; border-bottom: none; }
 .page-title { font-size: 20px; font-weight: 700; color: #1a1a2e; letter-spacing: -0.2px; line-height: 1; }
-.page-subtitle { font-size: 12px; color: #6b7280; margin-top: 10px; }
+.page-subtitle { font-size: 12px; color: #6b7280; margin-top: 8px; }
 .page-wrap {
-    background: #fff; border: 1px solid #d8dbe0; border-radius: 10px;
-    overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.07), 0 1px 4px rgba(0,0,0,0.04);
+    background: #fff; border: none; border-radius: 12px;
+    overflow: hidden; box-shadow: none;
 }
-.tab-bar { display: flex; border-bottom: 1px solid #e0e0e0; margin-bottom: 0; background: #fff; border-radius: 0; overflow-x: auto; overflow-y: hidden; padding: 0 8px; }
-.tab-btn { padding: 10px 18px; border: none; background: transparent; color: #555; font-size: 13px; font-family: inherit; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: color 0.2s; white-space: nowrap; flex-shrink: 0; }
+
+/* Tab bar */
+.tab-bar { display: flex; border-bottom: 1px solid #e0e0e0; background: #fff; overflow-x: auto; overflow-y: hidden; padding: 0 16px; }
+.tab-btn { padding: 11px 20px; border: none; background: transparent; color: #555; font-size: 13px; font-family: inherit; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: color 0.2s; white-space: nowrap; flex-shrink: 0; }
 .tab-btn:hover { color: #0083c1; }
 .tab-btn.active { color: #0083c1; border-bottom-color: #0083c1; font-weight: 600; }
-.main-panel { display: grid; grid-template-columns: 1fr 320px; gap: 0; align-items: start; padding: 20px 100px 20px 20px; border-bottom: 1px solid #eee; }
-.card { background: #fff; border: 1px solid #e4e4e4; border-radius: 3px; padding: 16px 40px; }
-.section-label { font-size: 13px; font-weight: 600; color: #222; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid #f0f0f0; }
+.main-panel {
+    display: block;
+    padding: 0;
+}
+@media (max-width: 600px) {
+    .tab-bar .tab-guide { display: block; }
+}
+
+/* LEFT CARD — Calculator */
+.calc-card {
+    background: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 24px 28px 28px;
+    display: flex;
+    flex-direction: column;
+    min-height: 420px;
+    box-shadow: none;
+}
+.card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding-bottom: 14px;
+    border-bottom: 2px solid #f0f2f5;
+}
+.card-header-icon {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+}
+.calc-icon { background: linear-gradient(135deg, #0083c1, #005d8f); }
+.guide-icon { background: linear-gradient(135deg, #f59e0b, #d97706); }
+.card-header-icon svg { width: 16px; height: 16px; fill: #fff; }
+.card-header-icon { display: none; }
+.calc-card .card-header { display: none; }
+.guide-card .card-header { display: none; }
+.card-header-text .card-title { font-size: 14px; font-weight: 700; color: #1a1a2e; line-height: 1.2; }
+.card-header-text .card-subtitle { font-size: 11px; color: #6b7280; margin-top: 2px; }
+
+/* RIGHT CARD — Guide */
+.guide-card {
+    background: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 24px 28px 28px;
+    display: none;
+    flex-direction: column;
+    overflow-y: auto;
+    box-shadow: none;
+}
+
+/* Form elements */
 .form-row { display: grid; grid-template-columns: 1fr; gap: 14px; margin-bottom: 14px; align-items: end; }
 .form-row.two-col { grid-template-columns: 1fr 1fr; }
-.form-row.four-col { grid-template-columns: repeat(4, 1fr); }
+.form-row.four-col { grid-template-columns: 1fr 1fr; }
 .form-group { display: flex; flex-direction: column; gap: 5px; }
-.form-group label { font-size: 12px; color: #555; font-weight: 500; }
+.form-group label { font-size: 12px; color: #555; font-weight: 500; line-height: 1.4; }
 .form-group label .req { color: #c2002f; margin-left: 2px; }
-select, input[type="text"], input[type="number"] { height: 32px; border: 1px solid #d0d0d0; border-radius: 3px; padding: 0 10px; font-size: 13px; font-family: inherit; color: #333; background: #fff; outline: none; transition: border-color 0.2s, box-shadow 0.2s; width: 100%; }
-select:focus, input:focus { border-color: #0083c1; box-shadow: 0 0 0 2px rgba(0,131,193,0.12); }
+select, input[type="text"], input[type="number"] {
+    height: 34px; border: 1px solid #d0d0d0; border-radius: 5px;
+    padding: 0 10px; font-size: 13px; font-family: inherit; color: #333;
+    background: #fff; outline: none; transition: border-color 0.2s, box-shadow 0.2s; width: 100%;
+}
+select:focus, input:focus { border-color: #0083c1; box-shadow: 0 0 0 3px rgba(0,131,193,0.1); }
 select:disabled, input:disabled { background: #f7f7f7; color: #aaa; cursor: not-allowed; }
-.calc-row { display: flex; justify-content: flex-end; margin-top: 6px; }
-.btn-calc { background: #0083c1; color: #fff; border: none; border-radius: 3px; padding: 0 28px; height: 32px; font-size: 13px; font-family: inherit; font-weight: 600; cursor: pointer; transition: background 0.2s, transform 0.1s; letter-spacing: 0.2px; }
-.btn-calc:hover { background: #006fa8; }
-.btn-calc:active { transform: translateY(1px); }
-.btn-clear-sm { background: transparent; color: #0083c1; border: 1px solid #0083c1; border-radius: 3px; padding: 0 18px; height: 32px; font-size: 13px; font-family: inherit; cursor: pointer; margin-right: 10px; transition: all 0.2s; }
-.btn-clear-sm:hover { background: #f0f8ff; }
-.output-section { margin-top: 20px; padding-top: 16px; border-top: 1px solid #f0f0f0; }
-.output-row { display: grid; grid-template-columns: 1fr; gap: 12px; margin-bottom: 12px; }
-.output-field { display: flex; flex-direction: column; gap: 5px; }
-.output-field label { font-size: 12px; color: #555; font-weight: 500; }
-.output-value { height: 32px; border: 1px solid #d0d0d0; border-radius: 3px; padding: 0 10px; font-size: 13px; font-family: inherit; color: #333; background: #fff; display: flex; align-items: center; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.output-value.highlighted { background: #fff; border-color: #d0d0d0; color: #333; font-weight: 400; }
-.info-panel { display: flex; flex-direction: column; gap: 12px; padding-left: 50px; font-size: 12px; color: #333; line-height: 1.75; min-height: 160px; }
-.info-table { width: 100%; border-collapse: collapse; }
-.info-table tr td { padding: 2px 0; vertical-align: top; font-size: 12px; white-space: nowrap; }
-.info-table tr td:first-child { color: #777; width: 100px; padding-right: 10px; }
-.info-table tr td:last-child { color: #333; white-space: nowrap; }
-.op-guide { background: #fff; border: none; border-top: 1px solid #e4e4e4; border-radius: 0; margin: 0; overflow: hidden; }
-.op-guide-header { padding: 9px 20px; font-size: 13px; font-weight: 600; color: #444; cursor: pointer; display: flex; align-items: center; gap: 6px; background: #ebf5fb; border-bottom: 1px solid transparent; user-select: none; transition: background 0.15s; }
-.op-guide-header:hover { background: #f2f2f2; }
-.op-guide-header .arrow { width: 14px; height: 14px; transition: transform 0.22s ease; color: #888; display: inline-flex; align-items: center; flex-shrink: 0; }
-.op-guide-header.open .arrow { transform: rotate(90deg); }
-.op-guide-header.open { border-bottom-color: #e4e4e4; }
-.op-guide-body { display: none; padding: 12px 20px 16px; font-size: 12px; color: #555; line-height: 1.8; }
-.op-guide-body.open { display: block; }
-.op-guide-body p { margin-bottom: 4px; }
-.formula-box { background: #f8f9fa; border: 1px solid #e8e8e8; border-radius: 3px; padding: 8px 12px; font-family: 'Courier New', monospace; font-size: 11px; color: #333; margin: 6px 0; line-height: 1.6; }
+
+/* Buttons */
+.calc-row { display: flex; justify-content: flex-end; margin-top: 10px; gap: 10px; }
+.btn-calc {
+    background: linear-gradient(135deg, #0083c1, #006fa8); color: #fff; border: none;
+    border-radius: 5px; padding: 0 28px; height: 34px; font-size: 13px;
+    font-family: inherit; font-weight: 600; cursor: pointer;
+    transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+    box-shadow: 0 2px 6px rgba(0,131,193,0.25);
+}
+.btn-calc:hover { background: linear-gradient(135deg, #006fa8, #005a8c); box-shadow: 0 4px 12px rgba(0,131,193,0.3); }
+.btn-calc:active { transform: translateY(1px); box-shadow: none; }
+.btn-clear-sm {
+    background: transparent; color: #666; border: 1px solid #d0d0d0;
+    border-radius: 5px; padding: 0 18px; height: 34px; font-size: 13px;
+    font-family: inherit; cursor: pointer; transition: all 0.2s;
+}
+.btn-clear-sm:hover { background: #f5f5f5; border-color: #bbb; }
+
+/* Output */
+.output-section { margin-top: 22px; padding-top: 18px; border-top: 1px solid #f0f2f5; flex: 1; }
+.output-label { font-size: 11px; font-weight: 600; color: #6b7280; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 10px; }
+.output-value {
+    min-height: 44px; border: 1.5px solid #d0d0d0; border-radius: 6px;
+    padding: 0 14px; font-size: 15px; font-family: inherit; color: #1a1a2e;
+    background: #f8f9fa; display: flex; align-items: center;
+    font-weight: 600; letter-spacing: 0.2px;
+}
+.output-value.highlighted { background: #eef7ff; border-color: #9fd3ee; color: #004f78; }
+
+/* Guide card styles */
+.guide-intro { font-size: 12px; color: #555; line-height: 1.7; margin: 0 0 16px; }
+.guide-section-title { font-size: 11px; font-weight: 700; color: #6b7280; text-transform: uppercase; letter-spacing: 0.7px; margin: 14px 0 6px; }
+.guide-divider { border: none; border-top: 1px solid #e6e8eb; margin: 16px 0; }
+.guide-step { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 10px; }
+.guide-step .step-num {
+    flex-shrink: 0; width: 22px; height: 22px; border-radius: 50%;
+    background: linear-gradient(135deg, #0083c1, #005d8f); color: #fff;
+    font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center;
+}
+.guide-step .step-body { font-size: 12px; color: #444; line-height: 1.65; }
+.guide-step .step-body strong { color: #1a1a2e; }
+.guide-example {
+    background: #fafbfc; border: 1px dashed #cdd4db; border-radius: 6px;
+    padding: 10px 12px; font-size: 11.5px; color: #333; line-height: 1.75;
+    font-family: 'Courier New', monospace;
+}
+.guide-example-row { display: flex; justify-content: space-between; padding: 2px 0; gap: 12px; }
+.guide-example-row span:first-child { color: #6b7280; }
+
+.guide-formula {
+    background: #f4f6f8; border: 1px solid #e0e4e8; border-radius: 6px;
+    padding: 9px 12px; font-family: 'Courier New', monospace;
+    font-size: 11.5px; color: #1a1a2e; margin: 6px 0 4px; line-height: 1.8;
+}
+.guide-tag {
+    display: inline-block; background: #e6f2f9; color: #0083c1;
+    border-radius: 999px; padding: 1px 8px; font-size: 10.5px;
+    font-weight: 600; margin-right: 4px;
+}
+.guide-weight-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 6px 10px; border-radius: 4px; font-size: 12px;
+}
+.guide-weight-row:nth-child(odd) { background: #f0f4f8; }
+.guide-weight-row .label { color: #555; }
+.guide-weight-row .value { color: #0083c1; font-weight: 600; font-family: 'Courier New', monospace; }
+
+/* ── Operation Guide section inside guide card ── */
+.op-section {
+    margin-top: 16px;
+    border-top: 1px solid #e6e8eb;
+    padding-top: 14px;
+}
+.op-section-title {
+    font-size: 11px; font-weight: 700; color: #6b7280;
+    text-transform: uppercase; letter-spacing: 0.7px; margin-bottom: 10px;
+}
+.op-item {
+    background: #f8f9fb; border: 1px solid #e4e8ec;
+    border-radius: 7px; padding: 10px 12px; margin-bottom: 8px;
+}
+.op-item-label {
+    font-size: 11.5px; font-weight: 700; color: #0083c1; margin-bottom: 4px;
+}
+.op-item-desc { font-size: 11.5px; color: #555; line-height: 1.65; }
+
 @media (max-width: 1024px) {
     .page-container { padding: 24px 16px 36px; }
-    .main-panel { grid-template-columns: 1fr 320px; padding: 14px 16px; }
-}
-@media (max-width: 860px) {
-    .main-panel { grid-template-columns: 1fr; padding: 14px 16px; }
-    .info-panel { border-left: none; border-top: 1px solid #ebebeb; padding-left: 0; padding-top: 14px; min-height: unset; }
+    .form-row.four-col { grid-template-columns: 1fr 1fr; }
 }
 @media (max-width: 600px) {
     body { padding: 0; margin: 0; width: 100vw; overflow-x: hidden; background: #fff; }
-    .page-container { padding: 0 0 24px; margin: 0; width: 100%; max-width: 100vw; }
+    .page-container { padding: 0; margin: 0; width: 100%; max-width: 100vw; }
     .page-wrap { border: none; border-radius: 0; box-shadow: none; width: 100%; max-width: 100vw; overflow-x: hidden; }
-    .page-header-bar { padding: 12px 16px 11px; }
-    .page-title { font-size: 14px; }
+    .page-header-bar { padding: 12px 16px 10px; border-bottom: none; }
+    .page-title { font-size: 15px; }
     .page-subtitle { font-size: 11.5px; }
     .tab-bar { padding: 0 4px; }
     .tab-btn { padding: 10px 13px; font-size: 12px; }
-    .main-panel { padding: 12px; }
-    .card { padding: 12px 14px; }
-    .form-row { gap: 10px; margin-bottom: 10px; }
-    .section-label { font-size: 12px; margin-bottom: 12px; }
-    .calc-row { margin-top: 10px; }
-    .btn-calc, .btn-clear-sm { height: 36px; font-size: 13px; }
-    .op-guide-header { padding: 10px 14px; font-size: 12px; }
-    .op-guide-body { padding: 10px 14px 14px; font-size: 12px; }
-    .info-panel { font-size: 11px; }
+
+    .main-panel {
+        display: block;
+        padding: 0;
+    }
+    .calc-card, .guide-card {
+        padding: 16px;
+        border-radius: 0;
+        border: none;
+        box-shadow: none;
+        min-height: auto;
+    }
+    .calc-card .form-row { grid-template-columns: 1fr; }
+    .calc-card .output-section { border-top: none; }
+    .calc-card .output-section .output-value { border: 1.5px solid #d0d0d0; background: #f8f9fa; padding: 0 14px; min-height: 44px; }
+    .calc-row { display: flex; gap: 10px; margin-top: 10px; }
+    .calc-row .btn-calc { flex: 1; text-align: center; }
+    .calc-row .btn-clear-sm { flex: 1; text-align: center; }
+    .guide-divider { display: none; }
+    .guide-example { border: none; }
+    .guide-formula { border: none; }
+    .guide-weight-row { border: none; }
+    .guide-card [style*="border"] { border: none !important; }
+    .guide-card .op-item { border: none; }
+    .guide-card .guide-weight-row:nth-child(odd) { background: transparent; }
+    .guide-card .guide-example-row { border: none; }
+    .guide-card { display: none; }
+    .guide-card.guide-visible { display: block; }
 }
 @media (max-width: 400px) {
-    .page-container { padding: 12px 8px 20px; }
-    .form-row { grid-template-columns: 1fr; }
-    .page-title { font-size: 16px; }
     .btn-calc { padding: 0 18px; }
 }
 </style>
@@ -111,92 +241,113 @@ select:disabled, input:disabled { background: #f7f7f7; color: #aaa; cursor: not-
     <div class="tab-bar">
       <button class="tab-btn active" id="tab-buy" onclick="switchMode('ဝယ်မယ်')">ရွှေဝယ်မယ်</button>
       <button class="tab-btn" id="tab-sell" onclick="switchMode('ပြန်ရောင်းမယ်')">ရွှေပြန်ရောင်းမယ်</button>
+      <button class="tab-btn tab-guide" id="tab-guide" onclick="showGuide()">လမ်းညွှန်</button>
     </div>
 
     <div class="main-panel">
-      <div>
-        <div class="card">
-          <div class="section-label">Input</div>
 
-          <div class="form-row two-col" id="buyRow">
-            <div class="form-group">
-              <label>လက်ထဲရှိငွေ (MMK): <span class="req">*</span></label>
-              <input type="text" id="input1" placeholder="MMK ပမာဏ" oninput="calculate()">
-            </div>
-            <div class="form-group">
-              <label>ရွှေပေါက်စျေး (MMK) (တစ်ကျပ်သား): <span class="req">*</span></label>
-              <input type="text" id="input2" placeholder="ပေါက်စျေး (MMK)" oninput="calculate()">
-            </div>
+      <!-- ═══════════════ LEFT CARD — CALCULATOR ═══════════════ -->
+      <div class="calc-card" id="cardCalc">
+        <div class="card-header">
+          <div class="card-header-icon calc-icon">
+            <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/></svg>
           </div>
+          <div class="card-header-text">
+            <div class="card-title">Calculator</div>
+            <div class="card-subtitle">Enter values to compute gold weight or value</div>
+          </div>
+        </div>
 
-          <div class="form-row four-col" id="sellRow" style="display:none;">
-            <div class="form-group">
-              <label>ကျပ် (Kyat) : <span class="req">*</span></label>
-              <input type="text" id="sellInput1" placeholder="ကျပ် ပမာဏ" oninput="calculate()">
-            </div>
-            <div class="form-group">
-              <label>ပဲ (Pae) : <span class="req">*</span></label>
-              <input type="text" id="sellInput2" placeholder="ပဲ ပမာဏ" oninput="calculate()">
-            </div>
-            <div class="form-group">
-              <label>ရွှေး (Yway) :</label>
-              <input type="text" id="sellInput3" placeholder="ရွှေး ပမာဏ" oninput="calculate()">
-            </div>
-            <div class="form-group">
-              <label>ပေါက်စျေး (MMK) : <span class="req">*</span></label>
-              <input type="text" id="sellInput4" placeholder="ပေါက်စျေး (MMK)" oninput="calculate()">
-            </div>
+        <!-- BUY inputs -->
+        <div class="form-row two-col" id="buyRow">
+          <div class="form-group">
+            <label>လက်ထဲရှိငွေ (MMK): <span class="req">*</span></label>
+            <input type="text" id="input1" placeholder="MMK ပမာဏ" oninput="calculate()">
           </div>
+          <div class="form-group">
+            <label>ရွှေပေါက်စျေး (MMK/ကျပ်သား): <span class="req">*</span></label>
+            <input type="text" id="input2" placeholder="ပေါက်စျေး (MMK)" oninput="calculate()">
+          </div>
+        </div>
 
-          <div class="calc-row">
-            <button class="btn-clear-sm" onclick="clearAll()">Clear</button>
-            <button class="btn-calc" onclick="calculate()">Calculate</button>
+        <!-- SELL inputs -->
+        <div class="form-row four-col" id="sellRow" style="display:none;">
+          <div class="form-group">
+            <label>ကျပ် (Kyat): <span class="req">*</span></label>
+            <input type="text" id="sellInput1" placeholder="ကျပ် ပမာဏ" oninput="calculate()">
           </div>
+          <div class="form-group">
+            <label>ပဲ (Pae): <span class="req">*</span></label>
+            <input type="text" id="sellInput2" placeholder="ပဲ ပမာဏ" oninput="calculate()">
+          </div>
+          <div class="form-group">
+            <label>ရွှေး (Yway):</label>
+            <input type="text" id="sellInput3" placeholder="ရွှေး ပမာဏ" oninput="calculate()">
+          </div>
+          <div class="form-group">
+            <label>ပေါက်စျေး (MMK): <span class="req">*</span></label>
+            <input type="text" id="sellInput4" placeholder="ပေါက်စျေး (MMK)" oninput="calculate()">
+          </div>
+        </div>
 
-          <div class="output-section">
-            <div class="section-label">Result</div>
-            <div class="output-row">
-              <div class="output-field">
-                <label>တွက်ချက်ရလဒ်:</label>
-                <div class="output-value highlighted" id="result">—</div>
-              </div>
-            </div>
-          </div>
+        <div class="calc-row">
+          <button class="btn-clear-sm" onclick="clearAll()">Clear</button>
+          <button class="btn-calc" onclick="calculate()">Calculate</button>
+        </div>
+
+        <!-- Result -->
+        <div class="output-section">
+          <div class="output-label">Result</div>
+          <div class="output-value highlighted" id="result">—</div>
         </div>
       </div>
 
-      <div class="info-panel">
-        <div style="color:#0083c1;font-weight:600;font-size:12.5px;margin-bottom:6px;">ရွှေတွက်နည်း — Gold Conversion</div>
-        <div style="font-size:12px;color:#555;line-height:1.85;">
-          Convert between Myanmar gold weight units (Kyat, Pae, Yway) and MMK.
+      <!-- ═══════════════ RIGHT CARD — GUIDE ═══════════════ -->
+      <div class="guide-card" id="cardGuide">
+        <div class="card-header">
+          <div class="card-header-icon guide-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+          </div>
+          <div class="card-header-text">
+            <div class="card-title">Tool Guide</div>
+            <div class="card-subtitle">How to use this calculator</div>
+          </div>
         </div>
-        <div style="margin-top:8px;">
-          <div style="font-size:11px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">Conversion</div>
-          <table class="info-table">
-            <tr><td>1 ကျပ် (Kyat)</td><td>= 16 ပဲ (Pae)</td></tr>
-            <tr><td>1 ပဲ (Pae)</td><td>= 8 ရွှေး (Yway)</td></tr>
-            <tr><td>1 ကျပ်</td><td>= 128 ရွှေး</td></tr>
-          </table>
-        </div>
-        <div style="margin-top:8px;">
-          <div style="font-size:11px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">Formula</div>
-          <div class="formula-box" id="formulaBox">Weight (Kyat) = MMK ÷ Gold Price</div>
-        </div>
-        <hr style="border:none;border-top:1px solid #e8e8e8;margin:10px 0 8px;">
-      </div>
-    </div>
 
-    <div class="op-guide">
-      <div class="op-guide-header" onclick="toggleGuide(this)">
-        <span class="arrow"><svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg></span> Operation Guide
+        <!-- How it works -->
+        <div class="guide-section-title">How to use</div>
+        <div class="guide-step">
+          <span class="step-num">1</span>
+          <div class="step-body"><strong>Pick a mode.</strong> Use <strong>ရွှေဝယ်မယ်</strong> to find how much gold your MMK can buy, or <strong>ရွှေပြန်ရောင်းမယ်</strong> to value gold you already own.</div>
+        </div>
+        <div class="guide-step">
+          <span class="step-num">2</span>
+          <div class="step-body"><strong>Enter values.</strong> For Buy: enter your MMK amount and the current gold price per ကျပ်သား. For Sell: enter ကျပ်, ပဲ, ရွှေး weight and the gold price.</div>
+        </div>
+        <div class="guide-step">
+          <span class="step-num">3</span>
+          <div class="step-body"><strong>Read the result.</strong> Output updates live as you type. The result mirrors the digit style you enter (English or Myanmar numerals).</div>
+        </div>
+
+        <hr class="guide-divider">
+
+        <!-- Formula -->
+        <div class="guide-section-title">Formula</div>
+        <div class="guide-formula" id="formulaBox">Weight (Kyat) = MMK ÷ Gold Price<br>Value (MMK) = (Kyat + Pae/16 + Yway/128) × Gold Price</div>
+
+        <!-- Quick example -->
+        <div class="guide-section-title">Quick Example</div>
+        <div class="guide-example">
+          <div class="guide-example-row"><span>Buy</span><span>1,000,000 MMK @ 3,500,000</span></div>
+          <div class="guide-example-row"><span>Result</span><span>0 ကျပ် 4 ပဲ 4.57 ရွှေး</span></div>
+          <div class="guide-example-row" style="margin-top:4px;"><span>Sell</span><span>1 ကျပ် 2 ပဲ 3 ရွှေး @ 3,500,000</span></div>
+          <div class="guide-example-row"><span>Result</span><span>3,718,750 MMK</span></div>
+        </div>
+
+
       </div>
-      <div class="op-guide-body" id="gold_guide">
-        <p><strong>ရွှေဝယ်မယ်:</strong> Enter your MMK amount and the current gold price per Kyat-tha to calculate how many Kyat, Pae, and Yway you can buy.</p>
-        <p><strong>ရွှေပြန်ရောင်းမယ်:</strong> Enter the Kyat, Pae, and Yway weight along with the gold price to calculate the total MMK value.</p>
-        <p><strong>Example (Buy):</strong> MMK = 1,000,000, Gold Price = 3,500,000 → Weight = 0.2857 Kyat = 0 Kyat 4 Pae 4.57 Yway</p>
-        <p><strong>Example (Sell):</strong> 1 Kyat 2 Pae 3 Yway at 3,500,000 MMK → Value = 3,718,750 MMK</p>
-      </div>
-    </div>
+
+    </div><!-- end main-panel -->
 
   </div>
 </div>
@@ -226,12 +377,6 @@ function detectLanguage() {
   const ids = isBuy ? ["input1", "input2"] : ["sellInput1", "sellInput2", "sellInput3", "sellInput4"];
   outputInMyanmar = ids.some(id => isMyanmarInput($(id).value));
 }
-function toggleGuide(headerEl) {
-  const body = headerEl.nextElementSibling;
-  const isOpen = body.classList.contains('open');
-  body.classList.toggle('open', !isOpen);
-  headerEl.classList.toggle('open', !isOpen);
-}
 function clearAll() {
   const isBuy = currentMode === "ဝယ်မယ်";
   if (isBuy) { ["input1", "input2"].forEach(id => $(id).value = ""); }
@@ -245,16 +390,36 @@ function switchMode(mode) {
   const isBuy = mode === "ဝယ်မယ်";
   $("tab-buy").classList.toggle("active", isBuy);
   $("tab-sell").classList.toggle("active", !isBuy);
+  $("tab-guide").classList.remove("active");
+  $("cardCalc").style.display = "";
+  if (window.innerWidth <= 600) {
+    $("cardGuide").classList.remove("guide-visible");
+  } else {
+    $("cardGuide").style.display = "none";
+  }
   updateMode();
+}
+
+function showGuide() {
+  $("tab-guide").classList.add("active");
+  $("tab-buy").classList.remove("active");
+  $("tab-sell").classList.remove("active");
+  if (window.innerWidth <= 600) {
+    $("cardCalc").style.display = "none";
+    $("cardGuide").classList.add("guide-visible");
+  } else {
+    $("cardCalc").style.display = "none";
+    $("cardGuide").style.display = "flex";
+  }
 }
 function updateMode() {
   const isBuy = currentMode === "ဝယ်မယ်";
   $("buyRow").style.display = isBuy ? "" : "none";
   $("sellRow").style.display = isBuy ? "none" : "";
-  $("result").textContent = isBuy ? "ရွှေ အလေးချိန်" : "ကျသင့် ငွေ";
   $("formulaBox").innerHTML = "Weight (Kyat) = MMK ÷ Gold Price<br>Value (MMK) = (Kyat + Pae/16 + Yway/128) × Gold Price";
   calculate();
 }
+
 function calculate() {
   detectLanguage();
   const result = $("result");
@@ -271,20 +436,22 @@ function calculate() {
     let output = `${kyat} ကျပ် ၊ ${pae} ပဲ ၊ ${yway.toFixed(2)} ရွှေး`;
     if (outputInMyanmar) output = enToMm(output);
     result.textContent = output;
+    result.className = "output-value highlighted";
   } else {
     const kyatWeight = getNumericValue("sellInput1");
-    const paeWeight = getNumericValue("sellInput2");
+    const paeWeight  = getNumericValue("sellInput2");
     const ywayWeight = getNumericValue("sellInput3");
-    const price = getNumericValue("sellInput4");
+    const price      = getNumericValue("sellInput4");
     if (price <= 0) { result.textContent = "ကျသင့် ငွေ: -"; return; }
     const totalK = kyatWeight + (paeWeight / 16) + (ywayWeight / 128);
     const amount = totalK * price;
     let formatted = amount.toLocaleString('en-US');
     if (outputInMyanmar) formatted = enToMm(formatted);
     result.textContent = `${formatted} MMK`;
+    result.className = "output-value highlighted";
   }
 }
-document.addEventListener("DOMContentLoaded", updateMode);
+
 </script>
 </body>
 </html>
