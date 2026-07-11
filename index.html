@@ -2,8 +2,13 @@
 <html lang="my">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0a2540">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>Gold Calculator</title>
+<meta property="og:title" content="Gold Calculator">
+<meta property="og:description" content="Gold weight and value converter — MMK to Kyat/Pae/Yway. 100% client-side.">
+<meta name="twitter:card" content="summary_large_image">
 <style>
 html, body { overflow-x: hidden; }
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -13,108 +18,52 @@ body {
     min-height: 100vh; color: #333; font-size: 13px;
 }
 .page-container { max-width: 700px; margin: 0 auto; padding: 40px 24px 48px; }
-.page-header-bar { padding: 20px 24px 14px; background: #0a2540; border-bottom: none; }
-.page-title { font-size: 20px; font-weight: 700; color: #fff; letter-spacing: -0.2px; line-height: 1; }
-.page-subtitle { font-size: 12px; color: #fff; margin-top: 8px; }
-.page-wrap {
-    background: #fff; border: none; border-radius: 12px;
-    overflow: hidden; box-shadow: none;
-}
-
-/* Tab bar */
-.tab-bar { display: flex; border-bottom: 1px solid #0a2540; background: #0a2540; overflow-x: auto; overflow-y: hidden; padding: 0 16px; }
-.tab-btn { padding: 11px 20px; border: none; background: transparent; color: #fff; font-size: 13px; font-family: inherit; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: color 0.2s; white-space: nowrap; flex-shrink: 0; }
-.tab-btn:hover { color: #fff; }
-.tab-btn.active { color: #fff; border-bottom-color: #fff; font-weight: 600; }
-.main-panel {
-    display: block;
-    padding: 0;
-}
-@media (max-width: 600px) {
-    .tab-bar .tab-guide { display: block; }
-}
-
-/* LEFT CARD — Calculator */
-.calc-card {
-    background: #fff;
-    border: none;
-    border-radius: 10px;
-    padding: 24px 28px 28px;
-    display: flex;
-    flex-direction: column;
-    min-height: 420px;
-    box-shadow: none;
+.page-header-bar { padding: 20px 24px 14px; background: #0a2540; }
+.page-title { font-size: 20px; font-weight: 700; color: #fff; letter-spacing: -0.2px; }
+.page-wrap { background: #fff; border-radius: 12px; overflow: hidden; }
+.tab-bar { display: flex; background: #0a2540; overflow-x: auto; padding: 0 16px; }
+.tab-btn { padding: 11px 20px; border: none; background: transparent; color: #fff; font-size: 13px; font-family: inherit; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; white-space: nowrap; flex-shrink: 0; }
+.tab-btn:hover, .tab-btn.active { color: #fff; }
+.tab-btn.active { border-bottom-color: #fff; font-weight: 600; }
+.tool-card {
+    background: #fff; border-radius: 10px;
+    padding: 24px 28px 28px; display: flex; flex-direction: column;
 }
 .card-header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 20px;
-    padding-bottom: 14px;
-    border-bottom: 2px solid #f0f2f5;
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 6px; padding-bottom: 6px;
 }
-.card-header-icon {
-    width: 32px; height: 32px;
-    border-radius: 8px;
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
-}
-.calc-icon { background: linear-gradient(135deg, #0083c1, #005d8f); }
-.guide-icon { background: linear-gradient(135deg, #f59e0b, #d97706); }
-.card-header-icon svg { width: 16px; height: 16px; fill: #fff; }
-.card-header-icon { display: none; }
-.calc-card .card-header { display: none; }
-.guide-card .card-header { display: none; }
-.card-header-text .card-title { font-size: 14px; font-weight: 700; color: #1a1a2e; line-height: 1.2; }
-.card-header-text .card-subtitle { font-size: 11px; color: #6b7280; margin-top: 2px; }
-
-/* RIGHT CARD — Guide */
-.guide-card {
-    background: #fff;
-    border: none;
-    border-radius: 10px;
-    padding: 24px 28px 28px;
-    display: none;
-    flex-direction: column;
-    overflow-y: auto;
-    box-shadow: none;
-}
-
-/* Form elements */
+.card-header-text .card-title { font-size: 14px; font-weight: 700; color: #1a1a2e; }
+.card-header-text .card-subtitle { font-size: 12px; color: #6b7280; margin-top: 2px; }
 .form-row { display: grid; grid-template-columns: 1fr; gap: 14px; margin-bottom: 14px; align-items: end; }
 .form-row.two-col { grid-template-columns: 1fr 1fr; }
 .form-row.four-col { grid-template-columns: 1fr 1fr; }
 .form-group { display: flex; flex-direction: column; gap: 5px; }
-.form-group label { font-size: 12px; color: #555; font-weight: 500; line-height: 1.4; }
+.form-group label { font-size: 12px; color: #555; font-weight: 500; }
 .form-group label .req { color: #c2002f; margin-left: 2px; }
 select, input[type="text"], input[type="number"] {
     height: 34px; border: 1px solid #d0d0d0; border-radius: 5px;
     padding: 0 10px; font-size: 13px; font-family: inherit; color: #333;
-    background: #fff; outline: none; transition: border-color 0.2s, box-shadow 0.2s; width: 100%;
+    background: #fff; outline: none; width: 100%;
 }
 select:focus, input:focus { border-color: #0083c1; box-shadow: 0 0 0 3px rgba(0,131,193,0.1); }
 select:disabled, input:disabled { background: #f7f7f7; color: #aaa; cursor: not-allowed; }
-
-/* Buttons */
-.calc-row { display: flex; justify-content: flex-end; margin-top: 10px; gap: 10px; }
-.btn-calc {
+.btn-row { display: flex; justify-content: flex-end; margin-top: 10px; gap: 10px; }
+.btn-primary {
     background: linear-gradient(135deg, #0083c1, #006fa8); color: #fff; border: none;
     border-radius: 5px; padding: 0 28px; height: 34px; font-size: 13px;
     font-family: inherit; font-weight: 600; cursor: pointer;
-    transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
     box-shadow: 0 2px 6px rgba(0,131,193,0.25);
 }
-.btn-calc:hover { background: linear-gradient(135deg, #006fa8, #005a8c); box-shadow: 0 4px 12px rgba(0,131,193,0.3); }
-.btn-calc:active { transform: translateY(1px); box-shadow: none; }
-.btn-clear-sm {
+.btn-primary:hover { background: linear-gradient(135deg, #006fa8, #005a8c); }
+.btn-primary:disabled { background: #ccc; box-shadow: none; cursor: not-allowed; }
+.btn-secondary {
     background: transparent; color: #666; border: 1px solid #d0d0d0;
     border-radius: 5px; padding: 0 18px; height: 34px; font-size: 13px;
-    font-family: inherit; cursor: pointer; transition: all 0.2s;
+    font-family: inherit; cursor: pointer;
 }
-.btn-clear-sm:hover { background: #f5f5f5; border-color: #bbb; }
-
-/* Output */
-.output-section { margin-top: 22px; padding-top: 18px; border-top: 1px solid #f0f2f5; flex: 1; }
+.btn-secondary:hover { background: #f5f5f5; border-color: #bbb; }
+.output-section { margin-top: 22px; padding-top: 18px; border-top: 1px solid #f0f2f5; }
 .output-label { font-size: 11px; font-weight: 600; color: #6b7280; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 10px; }
 .output-value {
     min-height: 44px; border: 1.5px solid #d0d0d0; border-radius: 6px;
@@ -123,10 +72,11 @@ select:disabled, input:disabled { background: #f7f7f7; color: #aaa; cursor: not-
     font-weight: 600; letter-spacing: 0.2px;
 }
 .output-value.highlighted { background: #eef0f4; border-color: #c0c4cc; color: #333; }
-
-/* Guide card styles */
-.guide-intro { font-size: 12px; color: #555; line-height: 1.7; margin: 0 0 16px; }
-.guide-section-title { font-size: 11px; font-weight: 700; color: #6b7280; text-transform: uppercase; letter-spacing: 0.7px; margin: 14px 0 6px; }
+.guide-card {
+    background: #fff; border-radius: 10px;
+    padding: 24px 28px 28px; display: none; flex-direction: column;
+}
+.guide-section-title { font-size: 14px; font-weight: 700; color: #1a1a2e; margin: 14px 0 14px; }
 .guide-divider { border: none; border-top: 1px solid #e6e8eb; margin: 16px 0; }
 .guide-step { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 10px; }
 .guide-step .step-num {
@@ -136,6 +86,11 @@ select:disabled, input:disabled { background: #f7f7f7; color: #aaa; cursor: not-
 }
 .guide-step .step-body { font-size: 12px; color: #444; line-height: 1.65; }
 .guide-step .step-body strong { color: #1a1a2e; }
+.guide-formula {
+    background: #f4f6f8; border: 1px solid #e0e4e8; border-radius: 6px;
+    padding: 9px 12px; font-family: 'Courier New', monospace;
+    font-size: 11.5px; color: #1a1a2e; margin: 6px 0 4px; line-height: 1.8;
+}
 .guide-example {
     background: #fafbfc; border: 1px dashed #cdd4db; border-radius: 6px;
     padding: 10px 12px; font-size: 11.5px; color: #333; line-height: 1.75;
@@ -143,17 +98,6 @@ select:disabled, input:disabled { background: #f7f7f7; color: #aaa; cursor: not-
 }
 .guide-example-row { display: flex; justify-content: space-between; padding: 2px 0; gap: 12px; }
 .guide-example-row span:first-child { color: #6b7280; }
-
-.guide-formula {
-    background: #f4f6f8; border: 1px solid #e0e4e8; border-radius: 6px;
-    padding: 9px 12px; font-family: 'Courier New', monospace;
-    font-size: 11.5px; color: #1a1a2e; margin: 6px 0 4px; line-height: 1.8;
-}
-.guide-tag {
-    display: inline-block; background: #e6f2f9; color: #0083c1;
-    border-radius: 999px; padding: 1px 8px; font-size: 10.5px;
-    font-weight: 600; margin-right: 4px;
-}
 .guide-weight-row {
     display: flex; align-items: center; justify-content: space-between;
     padding: 6px 10px; border-radius: 4px; font-size: 12px;
@@ -161,73 +105,26 @@ select:disabled, input:disabled { background: #f7f7f7; color: #aaa; cursor: not-
 .guide-weight-row:nth-child(odd) { background: #f0f4f8; }
 .guide-weight-row .label { color: #555; }
 .guide-weight-row .value { color: #0083c1; font-weight: 600; font-family: 'Courier New', monospace; }
-
-/* ── Operation Guide section inside guide card ── */
-.op-section {
-    margin-top: 16px;
-    border-top: 1px solid #e6e8eb;
-    padding-top: 14px;
-}
-.op-section-title {
-    font-size: 11px; font-weight: 700; color: #6b7280;
-    text-transform: uppercase; letter-spacing: 0.7px; margin-bottom: 10px;
-}
-.op-item {
-    background: #f8f9fb; border: 1px solid #e4e8ec;
-    border-radius: 7px; padding: 10px 12px; margin-bottom: 8px;
-}
-.op-item-label {
-    font-size: 11.5px; font-weight: 700; color: #0083c1; margin-bottom: 4px;
-}
-.op-item-desc { font-size: 11.5px; color: #555; line-height: 1.65; }
-
-@media (max-width: 1024px) {
-    .page-container { padding: 24px 16px 36px; }
-    .form-row.four-col { grid-template-columns: 1fr 1fr; }
-}
 @media (max-width: 600px) {
     body { padding: 0; margin: 0; width: 100vw; overflow-x: hidden; background: #fff; }
     .page-container { padding: 0; margin: 0; width: 100%; max-width: 100vw; }
-    .page-wrap { border: none; border-radius: 0; box-shadow: none; width: 100%; max-width: 100vw; overflow-x: hidden; }
-    .page-header-bar { padding: 12px 16px 10px; border-bottom: none; background: #0a2540; margin: 0; }
-    .page-header-bar .page-title { color: #fff; }
-    .page-header-bar .page-subtitle { color: #fff; }
+    .page-wrap { border: none; border-radius: 0; width: 100%; }
+    .page-header-bar { padding: 12px 16px 10px; background: #0a2540; margin: 0; }
     .tab-bar { background: #0a2540; border-bottom: none; padding: 0 4px; }
-    .tab-btn { color: #fff; padding: 10px 13px; font-size: 12px; }
-    .tab-btn.active { color: #fff; border-bottom-color: #fff; }
+    .tab-btn { padding: 10px 13px; font-size: 12px; }
     .page-title { font-size: 20px; font-weight: 900; }
-    .page-subtitle { font-size: 10px; font-weight: 800; }
-
-    .main-panel {
-        display: block;
-        padding: 0;
-    }
-    .calc-card, .guide-card {
-        padding: 16px;
-        border-radius: 0;
-        border: none;
-        box-shadow: none;
-        min-height: auto;
-    }
-    .calc-card .form-row { grid-template-columns: 1fr; }
-    .calc-card .output-section { border-top: none; }
-    .calc-card .output-section .output-value { border: 1.5px solid #d0d0d0; background: #f8f9fa; padding: 0 14px; min-height: 44px; }
-    .calc-row { display: flex; gap: 10px; margin-top: 10px; }
-    .calc-row .btn-calc { flex: 1; text-align: center; }
-    .calc-row .btn-clear-sm { flex: 1; text-align: center; }
+    .tool-card, .guide-card { padding: 16px; border-radius: 0; }
+    .form-row.two-col { grid-template-columns: 1fr; }
+    .form-row.four-col { grid-template-columns: 1fr; }
+    .guide-card { display: none; }
+    .guide-card.guide-visible { display: flex; }
+    .btn-row .btn-secondary, .btn-row .btn-primary { flex: 1; }
     .guide-divider { display: none; }
     .guide-example { border: none; }
     .guide-formula { border: none; }
-    .guide-weight-row { border: none; }
     .guide-card [style*="border"] { border: none !important; }
-    .guide-card .op-item { border: none; }
     .guide-card .guide-weight-row:nth-child(odd) { background: transparent; }
     .guide-card .guide-example-row { border: none; }
-    .guide-card { display: none; }
-    .guide-card.guide-visible { display: block; }
-}
-@media (max-width: 400px) {
-    .btn-calc { padding: 0 18px; }
 }
 </style>
 </head>
@@ -236,32 +133,29 @@ select:disabled, input:disabled { background: #f7f7f7; color: #aaa; cursor: not-
 <div class="page-container">
   <div class="page-wrap">
 
-    <div class="page-header-bar">
-      <div class="page-title">Gold Calculator</div>
-      <div class="page-subtitle">Gold Weight &amp; Value Converter — MMK to Kyat/Pae/Yway</div>
-    </div>
+    <div style="background: #0a2540; padding-top: env(safe-area-inset-top);">
+      <div class="page-header-bar">
+        <div class="page-title">Gold Calculator</div>
+        <div style="font-size:12px;color:#fff;margin-top:6px;font-weight:400;">Gold Weight &amp; Value Converter — MMK to Kyat/Pae/Yway</div>
+      </div>
 
-    <div class="tab-bar">
-      <button class="tab-btn active" id="tab-buy" onclick="switchMode('ဝယ်မယ်')">ရွှေဝယ်မယ်</button>
-      <button class="tab-btn" id="tab-sell" onclick="switchMode('ပြန်ရောင်းမယ်')">ရွှေပြန်ရောင်းမယ်</button>
-      <button class="tab-btn tab-guide" id="tab-guide" onclick="showGuide()">လမ်းညွှန်</button>
+      <div class="tab-bar">
+        <button class="tab-btn active" id="tab-buy" onclick="switchMode('ဝယ်မယ်')">ရွှေဝယ်မယ်</button>
+        <button class="tab-btn" id="tab-sell" onclick="switchMode('ပြန်ရောင်းမယ်')">ရွှေပြန်ရောင်းမယ်</button>
+        <button class="tab-btn" id="tab-guide" onclick="showGuide()">လမ်းညွှန်</button>
+      </div>
     </div>
 
     <div class="main-panel">
 
-      <!-- ═══════════════ LEFT CARD — CALCULATOR ═══════════════ -->
-      <div class="calc-card" id="cardCalc">
+      <div class="tool-card" id="cardCalc">
         <div class="card-header">
-          <div class="card-header-icon calc-icon">
-            <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/></svg>
-          </div>
           <div class="card-header-text">
             <div class="card-title">Calculator</div>
             <div class="card-subtitle">Enter values to compute gold weight or value</div>
           </div>
         </div>
 
-        <!-- BUY inputs -->
         <div class="form-row two-col" id="buyRow">
           <div class="form-group">
             <label>လက်ထဲရှိငွေ (MMK): <span class="req">*</span></label>
@@ -273,7 +167,6 @@ select:disabled, input:disabled { background: #f7f7f7; color: #aaa; cursor: not-
           </div>
         </div>
 
-        <!-- SELL inputs -->
         <div class="form-row four-col" id="sellRow" style="display:none;">
           <div class="form-group">
             <label>ကျပ် (Kyat): <span class="req">*</span></label>
@@ -293,31 +186,18 @@ select:disabled, input:disabled { background: #f7f7f7; color: #aaa; cursor: not-
           </div>
         </div>
 
-        <div class="calc-row">
-          <button class="btn-clear-sm" onclick="clearAll()">Clear</button>
-          <button class="btn-calc" onclick="calculate()">Calculate</button>
+        <div class="btn-row">
+          <button class="btn-secondary" onclick="clearAll()">Clear</button>
+          <button class="btn-primary" onclick="calculate()">Calculate</button>
         </div>
 
-        <!-- Result -->
         <div class="output-section">
           <div class="output-label">Result</div>
           <div class="output-value highlighted" id="result">—</div>
         </div>
       </div>
 
-      <!-- ═══════════════ RIGHT CARD — GUIDE ═══════════════ -->
       <div class="guide-card" id="cardGuide">
-        <div class="card-header">
-          <div class="card-header-icon guide-icon">
-            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
-          </div>
-          <div class="card-header-text">
-            <div class="card-title">Tool Guide</div>
-            <div class="card-subtitle">How to use this calculator</div>
-          </div>
-        </div>
-
-        <!-- How it works -->
         <div class="guide-section-title">How to use</div>
         <div class="guide-step">
           <span class="step-num">1</span>
@@ -334,11 +214,9 @@ select:disabled, input:disabled { background: #f7f7f7; color: #aaa; cursor: not-
 
         <hr class="guide-divider">
 
-        <!-- Formula -->
         <div class="guide-section-title">Formula</div>
         <div class="guide-formula" id="formulaBox">Weight (Kyat) = MMK ÷ Gold Price<br>Value (MMK) = (Kyat + Pae/16 + Yway/128) × Gold Price</div>
 
-        <!-- Quick example -->
         <div class="guide-section-title">Quick Example</div>
         <div class="guide-example">
           <div class="guide-example-row"><span>Buy</span><span>1,000,000 MMK @ 3,500,000</span></div>
@@ -346,12 +224,9 @@ select:disabled, input:disabled { background: #f7f7f7; color: #aaa; cursor: not-
           <div class="guide-example-row" style="margin-top:4px;"><span>Sell</span><span>1 ကျပ် 2 ပဲ 3 ရွှေး @ 3,500,000</span></div>
           <div class="guide-example-row"><span>Result</span><span>3,718,750 MMK</span></div>
         </div>
-
-
       </div>
 
-    </div><!-- end main-panel -->
-
+    </div>
   </div>
 </div>
 
@@ -454,7 +329,6 @@ function calculate() {
     result.className = "output-value highlighted";
   }
 }
-
 </script>
 </body>
 </html>
